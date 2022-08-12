@@ -45,8 +45,7 @@ def update_TrBl2():
         auth_manager=SpotifyOAuth(client_id=localtokens.get_spotify_clientid(),
                                   client_secret=localtokens.get_spotify_secretid(),
                                   redirect_uri=localtokens.get_redirect_uri(),
-                                  scope=playlistscope,
-                                  cache_handler=BotCacheHandler()))
+                                  scope=playlistscope))
 
     scraped_songs = dict()
     song_count = 0
