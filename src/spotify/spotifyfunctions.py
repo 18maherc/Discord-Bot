@@ -39,7 +39,7 @@ sp_client = spotipy.Spotify(auth_manager=auth_manager)
 
 def update_TrBl2():
     # Setting a scope for CAC flow
-    playlistscope = "playlist-modify-public"
+    playlistscope = "playlist-modify-public user-library-modify"
     # Get CAC authorized variable
     sp_auth = spotipy.Spotify(
         auth_manager=SpotifyOAuth(client_id=localtokens.get_spotify_clientid(),
