@@ -5,29 +5,31 @@
 # Imports because it's cool to have other stuff
 import discord
 from discord.ext import commands
-from src.spotify.spotifypassives import SpotifyPassives
-from src.spotify.spotify_commands import SpotifyCommands
-import src.localtokens as localtokens
+#from src.spotify.spotifypassives import SpotifyPassives
+#from src.spotify.spotify_commands import SpotifyCommands
+import src.localtokens as tokens
 from src.randomness import Randomness
 
+# !!!!!!!!!! Make sure that the most recent commit doesn't get into Development branch !!!!!!!!!!
+# !!!!!!!!!! Otherwise I'm gonna be hella annoyed with more merge conflicts !!!!!!!!!!
 # Initialize bot
 client = commands.Bot(
     command_prefix=commands.when_mentioned_or('Pragosh, '),
     help_command=None
 )
 client.add_cog(Randomness(client))
-client.add_cog(SpotifyPassives(client))
-client.add_cog(SpotifyCommands(client))
+# client.add_cog(SpotifyPassives(client))
+# client.add_cog(SpotifyCommands(client))
 
 # Variables because calling stuff smaller stuff makes me a happy chappy
-server_token = localtokens.get_application_token()
+server_token = tokens.get_application_token()
 
 
 # --- Work Time ---
 # Pragosh's startup sequence
 @client.event
 async def on_ready():
-    bot_chat = client.get_channel(localtokens.get_bot_tchat())
+    bot_chat = client.get_channel(tokens.get_bot_tchat())
     await bot_chat.send('I am Pragosh. And I am the Messiah')
 
 
@@ -37,12 +39,18 @@ async def on_message(message):
     if message.author == client.user:  # don't want to check our own messages
         return
     # instant replying to "Tatsu#8792"
-    if message.author.id == localtokens.get_person_data('Tatsu', 'id'):
+    if message.author.id == tokens.get_person_data('Tatsu', 'id'):
         context = await client.get_context(message)
         await context.message.reply("Please stop abusing your girlfriend")
-    if "POG" in message.content.upper():  # instant reacting to messages with pog
+    # instant WillPOG-ing
+    if "POG" in message.content.upper():
         will_pog_emoji = client.get_emoji(918323637398941716)
         await message.add_reaction(will_pog_emoji)
+    # instant replying with Radical Islam
+    if "RADICAL ISLAM" in message.content.upper():
+        context = await client.get_context(message)
+        await context.message.reply(
+            "https://media.discordapp.net/attachments/739822762062905487/1010339047614455838/image0.gif")
 
     await client.process_commands(message)
 
@@ -60,20 +68,31 @@ async def command_help(context, command=None):
                         \ncoinflip \
                         \nrandomcolor \
                         \ntopartists \
+                        \nTBcheckpoints \
+                        \nTBsong \
                         \n\nFor further help, type \'Pragosh, help `command`\''
     elif command == "bio":
         help_message = 'The bio command returns information about the currently released version of the bot'
     elif command == "randomnumber":
         help_message = 'To use the random number command, type \'Pragosh, randomnumber `starting integer` `ending integer` `count`\' \
-                        \n\nNote: The count of generated numbers is optional. The default is 1'
+                        \n\nNotes: \
+                        \nYou can enter a single number. The output is x random numbers from 1 to 100 \
+                        \nThe count of generated numbers is optional. The default is 1 (when bounded).'
     elif command == "coinflip":
         help_message = 'The coin flip command returns a randomly flipped coin featuring the immortal Queen Elizabeth'
     elif command == "randomcolor":
         help_message = 'The random color command returns a random color with the hex code'
     elif command == "topartists":
-        help_message = 'This command provides you with the top 5 most common artists in a playlist \
+        help_message = 'The top artists command provides you with the top 5 most common artists in a playlist \
                         \nTo use this command, type: \'Pragosh, topartists `playlist link`\' \
-                        \nFor example: \'Pragosh, topartists https://open.spotify.com/playlist/0fyr74e0hLjFJ3778Vw0SZ?si=0824b597bf5d4182\''
+                        \nFor example: \'Pragosh, topartists \
+                        https://open.spotify.com/playlist/0fyr74e0hLjFJ3778Vw0SZ?si=0824b597bf5d4182\''
+    elif command == "TBcheckpoints":
+        help_message = 'The TB checkpoints command gives you a transcript of the first song for everyone in \
+                        the Tribe Blend 2.0 playlist, so you can find them easier.'
+    elif command == "TBsong":
+        help_message = 'The TB song command gets you info about a song from TB 2.0 \
+                        \nTo use this command, type \'Pragosh, TBsong `song link`\''
 
     await context.message.reply(help_message)
 
@@ -97,12 +116,12 @@ async def bot_bio(context):
     )
     bio_embed.add_field(
         name="Current Version",
-        value="v1.5.6",
+        value="v1.6.3",
         inline=True
     )
     bio_embed.add_field(
         name="Release Date",
-        value="August 1, 2022",
+        value="December 21, 2022",
         inline=True
     )
     await context.message.reply(embed=bio_embed)
