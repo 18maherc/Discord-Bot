@@ -5,8 +5,8 @@
 # Imports because it's cool to have other stuff
 import discord
 from discord.ext import commands
-#from src.spotify.spotifypassives import SpotifyPassives
-#from src.spotify.spotify_commands import SpotifyCommands
+# from src.spotify.spotifypassives import SpotifyPassives
+from src.spotify.spotify_commands import SpotifyCommands
 import src.localtokens as tokens
 from src.randomness import Randomness
 
@@ -19,7 +19,7 @@ client = commands.Bot(
 )
 client.add_cog(Randomness(client))
 # client.add_cog(SpotifyPassives(client))
-# client.add_cog(SpotifyCommands(client))
+client.add_cog(SpotifyCommands(client))
 
 # Variables because calling stuff smaller stuff makes me a happy chappy
 server_token = tokens.get_application_token()

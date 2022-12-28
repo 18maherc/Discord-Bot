@@ -3,7 +3,7 @@
 # stretch of an idea: pull analytics of TB2.0
 from discord.ext import commands
 from . import spotifyfunctions as spfunct
-from .. import tokens as tokens
+from .. import tokens as localtokens
 
 
 class SpotifyCommands(commands.Cog):
